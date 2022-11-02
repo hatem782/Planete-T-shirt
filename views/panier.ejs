@@ -4,9 +4,77 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>panier</title>
+    <title>Doc</title>
+    <link rel="stylesheet" href="/css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://drive.google.com/file/d/1J_JxwxW52ldZLVlZ-35Tv2bNqLRsKWHP/view?usp=sharing"
+    />
+    <script src="../JS/class/Menu.js" defer></script>
   </head>
   <body>
-    <h1>panier page</h1>
+    <header id="header">
+      <img src="/imgages/logo.png" alt="" />
+      <div id="headerDiv">
+        <h1 id="headerTitre">Planète T-shirt</h1>
+        <ul class="menu">
+          <li id="acceuil"><a href="/acceuil">Acceuil</a></li>
+          <li id="catalogue"><a href="/catalogue">Catalogue</a></li>
+          <li id="panier"><a href="/panier">Panier</a></li>
+          <li id="conexion"><a href="/connection">Connexion</a></li>
+          <li id="boutique"><a href="/boutiques">boutiques</a></li>
+        </ul>
+      </div>
+    </header>
+    <main id="panier">
+      <h1>Panier</h1>
+      <div class="lignePanier">
+        <img src="../img/tshirt_blanc.jpg" alt="" />
+        <h2>Prix Total : <%= panier.totalprice %></h2>
+        <div class="orders">
+          <% orders.forEach((order)=>{ %>
+          <div class="order">
+            <h2 class="prod_title">
+              <%= order.idProd.libelle %>
+              <a href="/panier/delete_order/<%= order._id %>">
+                <img class="delete" src="/images/delete.svg" />
+              </a>
+            </h2>
+
+            <p>taille : <%= order.size %></p>
+            <p>tarif : <%= order.idProd.price %> €</p>
+            <img class="prod_img" src="<%= order.idProd.image %>" />
+          </div>
+          <% }) %>
+        </div>
+        <div class="quantieArticle"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div id="divFooter">
+        <ul id="ulFooter">
+          <li id="liContact">
+            <a href="https://planette-thirt/contact.com/">
+              <img src="/imgages/logo_contact.png" alt="contact" />
+            </a>
+          </li>
+          <li id="liInstagram">
+            <a href="https://instagram.com/"
+              ><img src="/imgages/logo_instagram.png" alt=""
+            /></a>
+          </li>
+          <li id="liFacebook">
+            <a href="https://facebook.com/"
+              ><img src="/imgages/logo_facebook.png" alt=""
+            /></a>
+          </li>
+          <li id="liTwitter">
+            <a href="https://twitter.com/"
+              ><img src="/imgages/logo_twitter.png" alt=""
+            /></a>
+          </li>
+        </ul>
+      </div>
+    </footer>
   </body>
 </html>

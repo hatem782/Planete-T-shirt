@@ -60,6 +60,10 @@ a {
   color: red;
 }
 
+.center {
+  text-align: center;
+}
+
 /*application sur le contenu de boutique*/
 /* div.boutique{
     display: block;
@@ -107,6 +111,11 @@ main img {
 .form-check-inline {
   padding-right: 10px;
 }
+
+.Hidden-ID-Input {
+  display: none;
+}
+
 .ajoutPanier {
   height: 50px;
   width: auto;
@@ -146,4 +155,34 @@ ul#ulFooter {
 }
 footer img {
   max-width: 50px;
+}
+
+.orders {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.order {
+  width: 46%;
+  padding: 2%;
+}
+
+.order a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+}
+
+.order .prod_title {
+  display: flex;
+}
+
+.order .prod_img {
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 1/1;
 }

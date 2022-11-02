@@ -3,6 +3,7 @@ const router = express.Router();
 
 const UserController = require("../controllers/user.controller");
 const ArticleController = require("../controllers/article.controller");
+const PanierController = require("../controllers/panier.controller");
 
 //------------------------------------------------------------------
 //---------------------------USER ROUTES----------------------------
@@ -26,19 +27,27 @@ router.post("/article/add", ArticleController.AddArticle);
 router.put("/article/update/:_id", ArticleController.UpdateArticle);
 router.delete("/article/remove/:_id", ArticleController.DeleteArticle);
 
+router.get("/catalogue", ArticleController.CataloguePage);
+router.get("/article/one/:_id", ArticleController.OneArticlePage);
 //------------------------------------------------------------------
-//-----------------------------Acceuil------------------------------
+//------------------------------PANIER------------------------------
+
+router.post(
+  "/ajouter_au_panier/:_id",
+  PanierController.AddArticleToCurrentPanier
+);
+
+router.get("/panier", PanierController.ShowPanierPage);
+
+router.get("/panier/delete_order/:_id", PanierController.DeleteOrderFromPanier);
+
+//------------------------------------------------------------------
+//------------------------------PAGES-------------------------------
 
 router.get("/acceuil", (req, res, next) => {
   const user = req.session?.context?.user || null;
   console.log(user);
   res.render("Acceuil", { user });
-});
-
-router.get("/catalogue", ArticleController.CataloguePage);
-
-router.get("/panier", (req, res, next) => {
-  res.render("panier");
 });
 
 router.get("/boutiques", (req, res, next) => {

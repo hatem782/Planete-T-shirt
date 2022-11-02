@@ -1,4 +1,5 @@
 const UserModel = require("../models/User.schema");
+const PannierModel = require("../models/Pannier.schema");
 const bcrypt = require("bcrypt");
 
 const Register = async (req, res) => {
@@ -10,6 +11,7 @@ const Register = async (req, res) => {
     let existUser = await UserModel.findOne({ email });
     if (existUser) {
       req.session.context = {
+        ...req.session.context,
         register_error: "Email est deja utilisée",
       };
       return res.redirect("/connection");
@@ -28,14 +30,25 @@ const Register = async (req, res) => {
 
     if (!newUser) {
       req.session.context = {
+        ...req.session.context,
         register_error: "erreur dans la creaction d'utilisateur",
       };
       return res.redirect("/connection");
     }
 
+    const panier = new PannierModel({
+      idUser: newUser._id,
+      totalprice: 0,
+      approved: false,
+    });
+
+    const newpanier = await panier.save();
+
     //--------------------------------------------------------------------------
     // creation terminé
     req.session.context = {
+      ...req.session.context,
+      register_error: "",
       user: newUser,
     };
     return res.redirect("/Acceuil");
@@ -43,6 +56,7 @@ const Register = async (req, res) => {
     console.log("##########:", error);
 
     req.session.context = {
+      ...req.session.context,
       register_error: "erreur dans la creaction d'utilisateur",
     };
     return res.redirect("/connection");
@@ -58,6 +72,7 @@ const Login = async (req, res) => {
     let existUser = await UserModel.findOne({ email });
     if (!existUser) {
       req.session.context = {
+        ...req.session.context,
         login_error: "Verifier votre email et password",
       };
       return res.redirect("/connection");
@@ -68,6 +83,7 @@ const Login = async (req, res) => {
     const passMatch = await bcrypt.compare(password, existUser?.password);
     if (!passMatch) {
       req.session.context = {
+        ...req.session.context,
         login_error: "Verifier votre email et password",
       };
       return res.redirect("/connection");
@@ -75,6 +91,8 @@ const Login = async (req, res) => {
     //--------------------------------------------------------------------------
     //-------------------------------YEEEY WE DID IT----------------------------
     req.session.context = {
+      ...req.session.context,
+      login_error: "",
       user: existUser,
     };
     return res.redirect("/Acceuil");
@@ -83,6 +101,7 @@ const Login = async (req, res) => {
   } catch (error) {
     console.log("##########:", error);
     req.session.context = {
+      ...req.session.context,
       login_error: "Verifier votre email et password",
     };
     return res.redirect("/connection");

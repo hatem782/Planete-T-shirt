@@ -115,10 +115,35 @@ const CataloguePage = async (req, res) => {
   }
 };
 
+const OneArticlePage = async (req, res) => {
+  const { _id } = req.params;
+  const article_error = req?.session?.context?.article_error || "";
+  try {
+    const article = await ArticleModel.findOne({ _id });
+    if (!article) {
+      return res.render("article", {
+        article: article,
+        article_error: "article n'est pas exist",
+      });
+    }
+    return res.render("article", {
+      article: article,
+      article_error: article_error,
+    });
+  } catch (error) {
+    console.log("##########:", error);
+    return res.render("article", {
+      article: {},
+      article_error: "article n'est pas exist",
+    });
+  }
+};
+
 module.exports = {
   AddArticle,
   AllArticles,
   UpdateArticle,
   DeleteArticle,
   CataloguePage,
+  OneArticlePage,
 };

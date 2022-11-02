@@ -10,7 +10,6 @@
       rel="stylesheet"
       href="https://drive.google.com/file/d/1J_JxwxW52ldZLVlZ-35Tv2bNqLRsKWHP/view?usp=sharing"
     />
-    <script src="/js/catalogue.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   </head>
   <body>
@@ -34,92 +33,30 @@
 
         <% articles.forEach((article)=> { %>
         <article>
-          <div class="mainArticle mainArticle-<%= article._id %>">
+          <div class="mainArticle">
             <h2><%= article.libelle %></h2>
             <div class="article">
               <img class="articleImg" src="<%= article.image %>" alt="" />
-              <button
-                class="bouttonDetailArticle"
-                onclick="showDetaille('<%= article._id %>')"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-chevron-compact-right"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"
-                  />
-                </svg>
+
+              <button class="bouttonDetailArticle">
+                <a href="/article/one/<%= article._id %>">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-chevron-compact-right"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"
+                    />
+                  </svg>
+                </a>
               </button>
             </div>
             <p class="pCatalogue"><%= article.description %></p>
-          </div>
-
-          <div id="articleMain articleMain-<%= article._id %>">
-            <h2><%= article.libelle %></h2>
-            <p class="pCatalogue"><%= article.description %></p>
-            <img class="articleImg" src="<%= article.image %>" alt="" />
-            <div class="taille">
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio1"
-                  value="option1"
-                />
-                <label class="form-check-label" for="inlineRadio1">S</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio2"
-                  value="option2"
-                />
-                <label class="form-check-label" for="inlineRadio2">M</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="inlineRadioOptions"
-                  id="inlineRadio3"
-                  value="option3"
-                />
-                <label class="form-check-label" for="inlineRadio3">L</label>
-              </div>
-            </div>
-            <p>tarif: 15 euros</p>
-
-            <button class="ajoutPanier">
-              <a href="/page/panier.html"> ajouter au panier </a>
-            </button>
-
-            <button
-              class="retourCatalogue"
-              onclick="hideDetaille('<%= article._id %>')"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-arrow-return-left"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
-                />
-              </svg>
-            </button>
           </div>
         </article>
         <hr />
