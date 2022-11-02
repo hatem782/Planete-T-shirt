@@ -14,6 +14,11 @@ const userSchema = Schema({
     required: true,
     minlengh: 8,
   },
+  role: {
+    type: String,
+    required: true,
+    default: "utilisateur",
+  },
 });
 
 module.exports = model("UserABC", userSchema);
