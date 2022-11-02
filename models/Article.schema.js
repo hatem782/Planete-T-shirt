@@ -1,22 +1,28 @@
 const { Schema, model } = require("mongoose");
 
 const articleSchema = Schema({
-  name: {
+  libelle: {
     type: String,
     require: true,
   },
-  photo: String,
-  description: String,
+  image: {
+    type: String,
+    require: true,
+  },
+  description: {
+    type: String,
+    require: true,
+  },
   price: {
     type: Number,
     minLengh: 1,
     require: true,
   },
-  size: {
-    type: String,
-    maxLengh: 1,
-    require: true,
-  },
+  // size: {
+  //   type: String,
+  //   maxLengh: 1,
+  //   require: true,
+  // },
 });
 
 module.exports = model("ArticleABC", articleSchema);

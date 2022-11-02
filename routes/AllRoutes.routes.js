@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const UserController = require("../controllers/user.controller");
+const ArticleController = require("../controllers/article.controller");
 
 //------------------------------------------------------------------
 //---------------------------USER ROUTES----------------------------
@@ -18,6 +19,14 @@ router.post("/register", UserController.Register);
 router.get("/deconnection", UserController.Deconnection);
 
 //------------------------------------------------------------------
+//-----------------------------Articles-----------------------------
+
+router.get("/article/getall", ArticleController.AllArticles);
+router.post("/article/add", ArticleController.AddArticle);
+router.put("/article/update/:_id", ArticleController.UpdateArticle);
+router.delete("/article/remove/:_id", ArticleController.DeleteArticle);
+
+//------------------------------------------------------------------
 //-----------------------------Acceuil------------------------------
 
 router.get("/acceuil", (req, res, next) => {
@@ -26,9 +35,7 @@ router.get("/acceuil", (req, res, next) => {
   res.render("Acceuil", { user });
 });
 
-router.get("/catalogue", (req, res, next) => {
-  res.render("catalogue");
-});
+router.get("/catalogue", ArticleController.CataloguePage);
 
 router.get("/panier", (req, res, next) => {
   res.render("panier");
