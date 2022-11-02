@@ -19,6 +19,12 @@ router.post("/register", UserController.Register);
 
 router.get("/deconnection", UserController.Deconnection);
 
+router.get("/reinitialisation", (req, res, next) => {
+  res.render("ForgetPassword");
+});
+
+router.post("/reset_password", UserController.ResetPassword);
+
 //------------------------------------------------------------------
 //-----------------------------Articles-----------------------------
 

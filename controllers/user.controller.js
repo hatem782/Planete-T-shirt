@@ -1,6 +1,8 @@
 const UserModel = require("../models/User.schema");
 const PannierModel = require("../models/Pannier.schema");
 const bcrypt = require("bcrypt");
+const PassGenerator = require("../functions/PassGenerator");
+const Mailer = require("../mail/mailer");
 
 const Register = async (req, res) => {
   try {
@@ -113,8 +115,61 @@ const Deconnection = async (req, res) => {
   return res.redirect("/Acceuil");
 };
 
+const ResetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log({ email });
+    //--------------------------------------------------------------------------
+    // Verify user by mail
+    let existUser = await UserModel.findOne({ email });
+    if (!existUser) {
+      req.session.context = {
+        forget_error: "Verifier votre email",
+      };
+      return res.redirect("/reinitialisation");
+    }
+
+    const generatedPass = PassGenerator();
+    const message = ` <h3>Votre nouveaux mot-de-passe est : ${generatedPass}  </h3> `;
+
+    const resetPassMailResp = await Mailer.sendMail(email, message);
+    console.log(resetPassMailResp);
+
+    const cryptedMdp = await bcrypt.hash(generatedPass, 10);
+
+    const updatedUser = await UserModel.findOneAndUpdate(
+      {
+        _id: existUser._id,
+      },
+      {
+        password: cryptedMdp,
+      }
+    );
+
+    if (!updatedUser) {
+      req.session.context = {
+        forget_error: "on peut pas sauvegarder le nouveau mot-de-pass",
+      };
+      return res.redirect("/reinitialisation");
+    }
+
+    req.session.context = {
+      ...req.session.context,
+      login_error: "un nouveau mot-de-passe a été envoyer a ton e-mail",
+    };
+    return res.redirect("/connection");
+  } catch (error) {
+    console.log("##########:", error);
+    req.session.context = {
+      forget_error: "Verifier votre email",
+    };
+    return res.redirect("/reinitialisation");
+  }
+};
+
 module.exports = {
   Register,
   Login,
   Deconnection,
+  ResetPassword,
 };
