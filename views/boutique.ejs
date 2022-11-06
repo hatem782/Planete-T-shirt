@@ -10,7 +10,6 @@
       rel="stylesheet"
       href="https://drive.google.com/file/d/1J_JxwxW52ldZLVlZ-35Tv2bNqLRsKWHP/view?usp=sharing"
     />
-    <script src="/JS/boutique.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   </head>
   <body>
@@ -32,41 +31,42 @@
       </div>
     </header>
     <main id="boutiques">
-      <div id="boutiqueContent">
-        <h1>boutiques</h1>
-        <h1><%= boutiques_error %></h1>
+      <div>
+        <h1>boutique</h1>
+        <h1><%= boutique_error %></h1>
 
-        <% boutiques.forEach((boutique)=>{ %>
-
-        <div class="boutique">
-          <div style="display: flex">
-            <img src="/images/logo_boutique.png" alt="" class="boutiqueImg" />
-            <button class="bouttonDetailBoutique">
-              <a href="/boutique/one/<%= boutique._id  %>">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-chevron-compact-right"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M6.776 1.553a.5.5 0 0 1 .671.223l3 6a.5.5 0 0 1 0 .448l-3 6a.5.5 0 1 1-.894-.448L9.44 8 6.553 2.224a.5.5 0 0 1 .223-.671z"
-                  />
-                </svg>
-              </a>
-            </button>
+        <div class="boutiqueDetail">
+          <h1 class="boutique_titre"><%= boutique.libelle %></h1>
+          <div id="boutique_adresse">
+            <img
+              id="logo_boutique"
+              src="/images/logo_boutique.png"
+              alt="logo boutique"
+            />
+            <p id="boutique_adresse">
+              <%= boutique.adress %> <br />
+              <%= boutique.telephone %>
+            </p>
           </div>
-          <h2><%= boutique.libelle %></h2>
-          <p class="boutique-adresse"><%= boutique.adress %></p>
-          <p class="boutiqueTel"><%= boutique.telephone %></p>
+          <div id="boutique_horraire"><%- boutique.description %></div>
+          <button class="retourBoutique">
+            <a href="/boutiques">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-arrow-return-left"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
+                />
+              </svg>
+            </a>
+          </button>
         </div>
-        <hr />
-        <br />
-        <br />
-        <% }) %>
       </div>
     </main>
     <footer id="footer">

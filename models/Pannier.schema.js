@@ -6,6 +6,11 @@ const panierSchema = Schema({
     required: true,
     ref: "UserABC",
   },
+  idBoutique: {
+    type: Schema.Types.ObjectId,
+    required: false,
+    ref: "UserABC",
+  },
   totalprice: {
     type: Number,
     required: true,
@@ -15,6 +20,10 @@ const panierSchema = Schema({
     type: Boolean,
     required: true,
     default: false,
+  },
+  pick_up_date: {
+    type: Date,
+    required: false,
   },
 });
 

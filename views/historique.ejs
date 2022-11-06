@@ -27,67 +27,42 @@
           <li id="conexion"><a href="/profile">Profile</a></li>
           <% } %>
           <li id="boutique"><a href="/boutiques">boutiques</a></li>
+          <li id="boutique"><a href="/profile">profile</a></li>
         </ul>
       </div>
     </header>
     <main id="panier">
-      <h1>Panier</h1>
-      <h2 class="error-message"><%= panier_error %></h2>
-      <div class="lignePanier">
-        <h2>Prix Total : <%= panier.totalprice %></h2>
-        <div class="orders">
-          <% orders.forEach((order)=>{ %>
-          <div class="order">
-            <h2 class="prod_title">
-              <%= order.idProd.libelle %>
-              <a href="/panier/delete_order/<%= order._id %>">
-                <img class="delete" src="/images/delete.svg" />
-              </a>
-            </h2>
+      <h1>Historique Panier</h1>
 
-            <p>taille : <%= order.size %></p>
-            <p>tarif : <%= order.idProd.price %> €</p>
+      <% ancientPaniers.forEach((panier,index)=>{ %>
+      <div class="lignePanier">
+        <h2>Panier <%= index+1 %></h2>
+        <h3>Prix Total : <%= panier.totalprice %></h3>
+        <div class="orders_history">
+          <% panier.orders.forEach((order)=>{ %>
+          <div class="order_history">
             <img class="prod_img" src="<%= order.idProd.image %>" />
+            <div>
+              <h2 class="prod_title"><%= order.idProd.libelle %></h2>
+              <p>taille : <%= order.size %></p>
+              <p>tarif : <%= order.idProd.price %> €</p>
+            </div>
           </div>
           <% }) %>
         </div>
-        <div class="quantieArticle"></div>
+        <div>
+          <h3>boutique : boutique X</h3>
+          <h3>
+            Date de ramassage : <%= new
+            Date(panier.pick_up_date).getFullYear()%>/ <%= new
+            Date(panier.pick_up_date).getMonth()+1 %>/ <%= new
+            Date(panier.pick_up_date).getDate() %>
+          </h3>
+        </div>
       </div>
       <hr style="width: 30%" />
-      <h2>Valider Panier</h2>
-      <form action="/panier/validate" method="post">
-        <div class="col-md-4">
-          <label for="validationCustom01" class="form-label"
-            >Selectionner Boutique</label
-          >
-          <br />
-          <select class="form-control" name="boutique" required>
-            <% boutiques.forEach((boutique)=>{ %>
-            <option value="<%= boutique._id  %>">
-              <%= boutique.libelle %>
-            </option>
-            <% }) %>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label for="validationCustom01" class="form-label"
-            >Date de ramassage
-          </label>
-          <br />
-          <input
-            type="date"
-            class="form-control"
-            id="validationCustom01"
-            name="pick_up_date"
-            required
-          />
-        </div>
-        <div class="col-12">
-          <button class="btn btn-primary" type="submit">Valider</button>
-        </div>
-      </form>
-      <hr style="width: 30%" />
-      <h2><a href="/panier/historique"> Voir historuqie </a></h2>
+
+      <% }) %>
     </main>
     <footer id="footer">
       <div id="divFooter">

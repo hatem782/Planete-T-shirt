@@ -6,8 +6,7 @@ const Mailer = require("../mail/mailer");
 
 const Register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
-    console.log({ firstName, lastName, email, password });
+    const { firstName, lastName, email, password, telephone } = req.body;
     //--------------------------------------------------------------------------
     // verifier si l'utilisateur existe deja
     let existUser = await UserModel.findOne({ email });
@@ -26,6 +25,7 @@ const Register = async (req, res) => {
       firstName,
       lastName,
       email,
+      telephone,
       password: cryptedMdp,
     });
     const newUser = await user.save();
@@ -68,7 +68,6 @@ const Register = async (req, res) => {
 const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log({ email, password });
     //--------------------------------------------------------------------------
     // Verify user by mail
     let existUser = await UserModel.findOne({ email });
@@ -112,13 +111,12 @@ const Login = async (req, res) => {
 
 const Deconnection = async (req, res) => {
   req.session.destroy();
-  return res.redirect("/Acceuil");
+  return res.redirect("/connection");
 };
 
 const ResetPassword = async (req, res) => {
   try {
     const { email } = req.body;
-    console.log({ email });
     //--------------------------------------------------------------------------
     // Verify user by mail
     let existUser = await UserModel.findOne({ email });
@@ -133,7 +131,6 @@ const ResetPassword = async (req, res) => {
     const message = ` <h3>Votre nouveaux mot-de-passe est : ${generatedPass}  </h3> `;
 
     const resetPassMailResp = await Mailer.sendMail(email, message);
-    console.log(resetPassMailResp);
 
     const cryptedMdp = await bcrypt.hash(generatedPass, 10);
 
@@ -167,9 +164,34 @@ const ResetPassword = async (req, res) => {
   }
 };
 
+const GetProfile = async (req, res) => {
+  try {
+    const user = req.session?.context?.user || null;
+
+    if (!user) {
+      req.session.context = {
+        ...req.session.context,
+        login_error: "tu dois connecter pour accéder à votre profile",
+      };
+      return res.redirect("/connection");
+    }
+
+    return res.render("session", {
+      user: user,
+    });
+  } catch (error) {
+    console.log("##########:", error);
+    req.session.context = {
+      login_error: "",
+    };
+    return res.redirect("/connection");
+  }
+};
+
 module.exports = {
   Register,
   Login,
   Deconnection,
   ResetPassword,
+  GetProfile,
 };

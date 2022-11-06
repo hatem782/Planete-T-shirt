@@ -4,13 +4,13 @@ const router = express.Router();
 const UserController = require("../controllers/user.controller");
 const ArticleController = require("../controllers/article.controller");
 const PanierController = require("../controllers/panier.controller");
+const BoutiqueController = require("../controllers/boutique.controller");
 
 //------------------------------------------------------------------
 //---------------------------USER ROUTES----------------------------
 router.get("/connection", (req, res, next) => {
   const login_error = req.session?.context?.login_error || "";
   const register_error = req.session?.context?.register_error || "";
-  console.log({ login_error, register_error });
   res.render("connection", { login_error, register_error });
 });
 router.post("/login", UserController.Login);
@@ -24,6 +24,8 @@ router.get("/reinitialisation", (req, res, next) => {
 });
 
 router.post("/reset_password", UserController.ResetPassword);
+
+router.get("/profile", UserController.GetProfile);
 
 //------------------------------------------------------------------
 //-----------------------------Articles-----------------------------
@@ -47,17 +49,27 @@ router.get("/panier", PanierController.ShowPanierPage);
 
 router.get("/panier/delete_order/:_id", PanierController.DeleteOrderFromPanier);
 
+router.post("/panier/validate", PanierController.ValidatePanier);
+
+router.get("/panier/historique", PanierController.ShowOldPaniersPage);
+
+//------------------------------------------------------------------
+//---------------------------Boutiques------------------------------
+
+router.get("/boutique/getall", BoutiqueController.AllBoutiques);
+router.post("/boutique/add", BoutiqueController.AddBoutique);
+router.put("/boutique/update/:_id", BoutiqueController.UpdateBoutique);
+router.delete("/boutique/remove/:_id", BoutiqueController.DeleteBoutique);
+
+router.get("/boutiques", BoutiqueController.BoutiquesPage);
+router.get("/boutique/one/:_id", BoutiqueController.OneBoutiquePage);
+
 //------------------------------------------------------------------
 //------------------------------PAGES-------------------------------
 
 router.get("/acceuil", (req, res, next) => {
   const user = req.session?.context?.user || null;
-  console.log(user);
   res.render("Acceuil", { user });
-});
-
-router.get("/boutiques", (req, res, next) => {
-  res.render("boutiques");
 });
 
 router.get("/404", (req, res, next) => {

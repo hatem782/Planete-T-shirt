@@ -3,7 +3,6 @@ const ArticleModel = require("../models/Article.schema");
 const AddArticle = async (req, res) => {
   try {
     const { libelle, image, description, price } = req.body;
-    console.log({ libelle, image, description, price });
     //--------------------------------------------------------------------------
     // verifier si l'article existe deja
     let existArticle = await ArticleModel.findOne({ libelle });
@@ -60,7 +59,6 @@ const UpdateArticle = async (req, res) => {
   try {
     const { _id } = req.params;
     const { libelle, image, description, price } = req.body;
-    console.log({ libelle, image, description, price });
     //--------------------------------------------------------------------------
     let updatedArticle = await ArticleModel.findOneAndUpdate(
       { _id },
@@ -105,10 +103,23 @@ const DeleteArticle = async (req, res) => {
 };
 
 const CataloguePage = async (req, res) => {
+  const user = req.session?.context?.user || null;
   try {
     const articles = await ArticleModel.find();
 
-    return res.render("catalogue", { articles: articles });
+    if (articles?.length === 0 || !articles) {
+      return res.render("catalogue", {
+        articles: [],
+        user: user,
+        articles_error: "il n'y a pas d'articles",
+      });
+    }
+
+    return res.render("catalogue", {
+      articles: articles,
+      articles_error: "",
+      user: user,
+    });
   } catch (error) {
     console.log("##########:", error);
     res.status(400).send({ Message: "Server Error", Error: error.message });
@@ -118,22 +129,26 @@ const CataloguePage = async (req, res) => {
 const OneArticlePage = async (req, res) => {
   const { _id } = req.params;
   const article_error = req?.session?.context?.article_error || "";
+  const user = req.session?.context?.user || null;
   try {
     const article = await ArticleModel.findOne({ _id });
     if (!article) {
       return res.render("article", {
         article: article,
+        user: user,
         article_error: "article n'est pas exist",
       });
     }
     return res.render("article", {
       article: article,
+      user: user,
       article_error: article_error,
     });
   } catch (error) {
     console.log("##########:", error);
     return res.render("article", {
       article: {},
+      user: user,
       article_error: "article n'est pas exist",
     });
   }

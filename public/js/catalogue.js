@@ -8,13 +8,11 @@
 // });
 
 const showDetaille = (idArticle = "") => {
-  console.log(`.mainArticle${idArticle}`);
   $(`#articleMain`).show();
   $(`.mainArticle`).hide();
 };
 
 const hideDetaille = (idArticle = "") => {
-  console.log(`.mainArticle${idArticle}`);
   $(`#articleMain`).hide();
   $(`.mainArticle}`).show();
 };

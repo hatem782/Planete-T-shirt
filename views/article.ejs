@@ -21,7 +21,11 @@
           <li id="acceuil"><a href="/acceuil">Acceuil</a></li>
           <li id="catalogue"><a href="/catalogue">Catalogue</a></li>
           <li id="panier"><a href="/panier">Panier</a></li>
+          <% if(user===null) { %>
           <li id="conexion"><a href="/connection">Connexion</a></li>
+          <% } else{ %>
+          <li id="conexion"><a href="/profile">Profile</a></li>
+          <% } %>
           <li id="boutique"><a href="/boutiques">boutiques</a></li>
         </ul>
       </div>

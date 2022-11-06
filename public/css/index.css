@@ -69,9 +69,6 @@ a {
     display: block;
     
 } */
-.boutiqueDetail {
-  display: none;
-}
 
 /*application sur le contenu de cataloque*/
 main img {
@@ -185,4 +182,24 @@ footer img {
   width: 100%;
   object-fit: cover;
   aspect-ratio: 1/1;
+}
+
+.order_history {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 400px;
+  margin: 10px 0px;
+}
+
+.order_history .prod_img {
+  height: 100px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  margin: 0px 10px 0px 0px !important;
+}
+
+.order_history h2,
+.order_history p {
+  margin: 0px;
 }
