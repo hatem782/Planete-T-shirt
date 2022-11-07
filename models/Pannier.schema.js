@@ -9,7 +9,7 @@ const panierSchema = Schema({
   idBoutique: {
     type: Schema.Types.ObjectId,
     required: false,
-    ref: "UserABC",
+    ref: "Boutique",
   },
   totalprice: {
     type: Number,

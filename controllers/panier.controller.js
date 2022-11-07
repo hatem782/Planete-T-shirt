@@ -205,7 +205,6 @@ const ValidatePanier = async (req, res) => {
   try {
     // getting id of boutique
     const { boutique, pick_up_date } = req.body;
-    console.log("here");
 
     if (!boutique) {
       req.session.context = {
@@ -214,7 +213,6 @@ const ValidatePanier = async (req, res) => {
       };
       return res.redirect("/panier");
     }
-    console.log("here0");
 
     const user = req.session?.context?.user || null;
     // il n'y a pas d'utilisateur , pas des session
@@ -225,7 +223,6 @@ const ValidatePanier = async (req, res) => {
       };
       return res.redirect("/connection");
     }
-    console.log("here1");
 
     const updatedPanier = await PannierModel.findOneAndUpdate(
       {
@@ -238,7 +235,6 @@ const ValidatePanier = async (req, res) => {
         pick_up_date: pick_up_date,
       }
     );
-    console.log("here2");
 
     if (!updatedPanier) {
       req.session.context = {
@@ -247,7 +243,6 @@ const ValidatePanier = async (req, res) => {
       };
       return res.redirect("/panier");
     }
-    console.log("here3");
 
     const panier = new PannierModel({
       idUser: user._id,
@@ -262,7 +257,7 @@ const ValidatePanier = async (req, res) => {
       ...req.session.context,
       panier_error: "",
     };
-    return res.redirect("/panier");
+    return res.redirect("/panier/historique");
   } catch (error) {
     console.log("##########:", error);
     req.session.context = {
