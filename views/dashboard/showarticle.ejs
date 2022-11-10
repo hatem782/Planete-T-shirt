@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doc</title>
+    <link rel="stylesheet" href="/css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://drive.google.com/file/d/1J_JxwxW52ldZLVlZ-35Tv2bNqLRsKWHP/view?usp=sharing"
+    />
+    <script src="../JS/class/Menu.js" defer></script>
+  </head>
+  <body>
+    <header id="header">
+      <img src="/imgages/logo.png" alt="" />
+      <div id="headerDiv">
+        <h1 id="headerTitre">Planète T-shirt</h1>
+        <ul class="menu">
+          <li id="acceuil"><a href="/acceuil">Acceuil</a></li>
+          <li id="catalogue"><a href="/catalogue">Catalogue</a></li>
+          <li id="panier"><a href="/panier">Panier</a></li>
+          <% if(user===null) { %>
+          <li id="conexion"><a href="/connection">Connexion</a></li>
+          <% } else{ %>
+          <li id="conexion"><a href="/profile">Profile</a></li>
+          <% } %>
+          <li id="boutique"><a href="/boutiques">boutiques</a></li>
+        </ul>
+      </div>
+    </header>
+    <main id="panier">
+      <h1>Consulter Articles</h1>
+      <h2>
+        <a href="/article/createpage" style="display: flex">
+          <img src="/images/add.svg" style="width: 20px; margin: 0px 5px" />
+          Ajouter Article
+        </a>
+      </h2>
+      <hr style="width: 30%" />
+
+      <% articles.forEach((article,index)=>{ %>
+      <div class="lignePanier">
+        <h2>Article <%= index+1 %></h2>
+        <div class="orders_history">
+          <div class="order_history">
+            <img class="prod_img" src="<%= article.image %>" />
+            <div>
+              <h2 class="prod_title"><%= article.libelle %></h2>
+              <p>taille : <%= article.size %></p>
+              <p>tarif : <%= article.price %> €</p>
+            </div>
+            <div class="dashboard-edit">
+              <a href="/article/updatepage/<%= article._id %>">
+                <img src="/images/edit.svg" />
+              </a>
+              <a href="/article/delete/<%= article._id %>">
+                <img src="/images/delete.svg" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% }) %>
+    </main>
+    <footer id="footer">
+      <div id="divFooter">
+        <ul id="ulFooter">
+          <li id="liContact">
+            <a href="https://planette-thirt/contact.com/">
+              <img src="/imgages/logo_contact.png" alt="contact" />
+            </a>
+          </li>
+          <li id="liInstagram">
+            <a href="https://instagram.com/"
+              ><img src="/imgages/logo_instagram.png" alt=""
+            /></a>
+          </li>
+          <li id="liFacebook">
+            <a href="https://facebook.com/"
+              ><img src="/imgages/logo_facebook.png" alt=""
+            /></a>
+          </li>
+          <li id="liTwitter">
+            <a href="https://twitter.com/"
+              ><img src="/imgages/logo_twitter.png" alt=""
+            /></a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

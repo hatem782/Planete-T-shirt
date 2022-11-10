@@ -80,4 +80,28 @@ router.get("/test", (req, res, next) => {
   res.render("test", { title: "hello i am hatem" });
 });
 
+//------------------------------------------------------------------
+//--------------------------Dashboard-------------------------------
+
+router.get("/dashboard", (req, res, next) => {
+  const user = req.session?.context?.user || null;
+  // if (user?.role === "admin") {
+  res.render("dashboard/dash_main", { user });
+  // } else {
+  // res.redirect("/acceuil");
+  // }
+});
+
+router.get("/gest_articles", ArticleController.ShowArticles);
+router.get("/article/delete/:_id", ArticleController.DeleteArticleDash);
+
+router.get("/article/createpage", (req, res) => {
+  const user = req.session?.context?.user || null;
+  res.render("dashboard/addarticle", { user });
+});
+
+router.post("/article/create", ArticleController.CreateArticle);
+router.get("/article/updatepage/:_id", ArticleController.UpdateArticlePage);
+router.post("/article/update/:_id", ArticleController.UpdateArticleFunction);
+
 module.exports = router;

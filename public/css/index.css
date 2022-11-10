@@ -203,3 +203,22 @@ footer img {
 .order_history p {
   margin: 0px;
 }
+
+.dashboard-edit {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100px;
+  flex-direction: column;
+}
+
+.dashboard-edit img {
+  height: 20px;
+  width: 20px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.create .form-label {
+  display: block;
+}

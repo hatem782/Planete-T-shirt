@@ -33,21 +33,9 @@
       </div>
     </header>
     <main id="boutique">
-      <h2>Mes informations</h2>
-      <p id="sessionName">Nom : <%= user.firstName %></p>
-      <p id="sessionLastName">Prenom : <%= user.lastName %></p>
-      <p id="sessionEmail">Email : <%= user.email %></p>
-      <p id="sessionTel">Telephone : <%= user.telephone %></p>
-      <div style="display: flex; justify-content: center; align-items: center">
-        <% if(user.role=="admin"){ %>
-        <button style="margin: 10px">
-          <h3><a href="/dashboard"> Dashboard</a></h3>
-        </button>
-        <% } %>
-        <button style="margin: 10px">
-          <h3><a href="/deconnection"> Deconnecter</a></h3>
-        </button>
-      </div>
+      <h1>Dashboard</h1>
+      <h2><a href="/gest_articles">Gestion Articles</a></h2>
+      <h2><a href="/gest_boutiques"> Gestion Boutiques </a></h2>
     </main>
 
     <footer id="footer">

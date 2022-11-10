@@ -28,6 +28,10 @@ const panierSchema = Schema({
     type: String,
     required: false,
   },
+  deleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = model("Boutique", panierSchema);

@@ -18,11 +18,10 @@ const articleSchema = Schema({
     minLengh: 1,
     require: true,
   },
-  // size: {
-  //   type: String,
-  //   maxLengh: 1,
-  //   require: true,
-  // },
+  deleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = model("ArticleABC", articleSchema);
