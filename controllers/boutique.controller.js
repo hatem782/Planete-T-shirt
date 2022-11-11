@@ -109,7 +109,7 @@ const DeleteBoutique = async (req, res) => {
 const BoutiquesPage = async (req, res) => {
   const user = req.session?.context?.user || null;
   try {
-    const boutiques = await BoutiqueModel.find();
+    const boutiques = await BoutiqueModel.find({ deleted: false });
 
     if (!boutiques || boutiques.length === 0) {
       return res.render("boutiques", {
@@ -158,6 +158,119 @@ const OneBoutiquePage = async (req, res) => {
   }
 };
 
+const ShowBoutiques = async (req, res) => {
+  try {
+    const boutiques = await BoutiqueModel.find({ deleted: false });
+    const user = req.session?.context?.user || null;
+    return res.render("dashboard/showboutiques", { boutiques, user });
+  } catch (error) {
+    console.log("##########:", error);
+    res.status(400).send({ Message: "Server Error", Error: error.message });
+  }
+};
+
+const CreateBoutique = async (req, res) => {
+  try {
+    const { libelle, adress, city, telephone, postal_code, description } =
+      req.body;
+    //--------------------------------------------------------------------------
+    // verifier si l'article existe deja
+    let existBoutique = await BoutiqueModel.findOne({ libelle });
+    if (existBoutique) {
+      return res.redirect("/boutique/createpage");
+    }
+
+    const boutique = new BoutiqueModel({
+      libelle,
+      adress,
+      city,
+      telephone,
+      postal_code,
+      description,
+    });
+    const newBoutique = await boutique.save();
+
+    if (!newBoutique) {
+      return res.redirect("/boutique/createpage");
+    }
+
+    return res.redirect("/gest_boutiques");
+  } catch (error) {
+    console.log("##########:", error);
+    return res.status(400).json({
+      Message: "problem dans l'ajout de boutique",
+      Success: false,
+    });
+  }
+};
+
+const UpdateBoutiquePage = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const user = req.session?.context?.user || null;
+    const boutiqueToUpdate = await BoutiqueModel.findById({ _id });
+    if (!boutiqueToUpdate) {
+      return res.redirect("/gest_boutiques");
+    }
+    return res.render("dashboard/updateboutique", {
+      boutique: boutiqueToUpdate,
+      user: user,
+    });
+  } catch (error) {
+    console.log("##########:", error);
+    res.status(500).send({ Message: "Server Error", Error: error.message });
+  }
+};
+
+const UpdateBoutiqueFunction = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const { libelle, adress, city, telephone, postal_code, description } =
+      req.body;
+
+    const updatedBoutique = await BoutiqueModel.findOneAndUpdate(
+      { _id },
+      {
+        libelle,
+        adress,
+        city,
+        telephone,
+        postal_code,
+        description,
+      }
+    );
+
+    if (!updatedBoutique) {
+      return res.redirect("/boutique/updatepage/" + _id);
+    }
+
+    return res.redirect("/gest_boutiques");
+  } catch (error) {
+    console.log("##########:", error);
+    return res.status(400).json({
+      Message: "problem dans la modification de boutique",
+      Success: false,
+    });
+  }
+};
+
+const DeleteBoutiqueDash = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const removedBoutique = await BoutiqueModel.findOneAndUpdate(
+      { _id },
+      { deleted: true }
+    );
+    if (!removedBoutique) {
+      return res.redirect("/gest_boutiques");
+    }
+    return res.redirect("/gest_boutiques");
+  } catch (error) {
+    console.log("##########:", error);
+    res.status(500).send({ Message: "Server Error", Error: error.message });
+  }
+};
+
 module.exports = {
   AddBoutique,
   AllBoutiques,
@@ -165,4 +278,9 @@ module.exports = {
   DeleteBoutique,
   BoutiquesPage,
   OneBoutiquePage,
+  ShowBoutiques,
+  DeleteBoutiqueDash,
+  CreateBoutique,
+  UpdateBoutiquePage,
+  UpdateBoutiqueFunction,
 };

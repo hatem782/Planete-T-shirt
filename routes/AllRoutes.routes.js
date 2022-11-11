@@ -104,4 +104,16 @@ router.post("/article/create", ArticleController.CreateArticle);
 router.get("/article/updatepage/:_id", ArticleController.UpdateArticlePage);
 router.post("/article/update/:_id", ArticleController.UpdateArticleFunction);
 
+router.get("/gest_boutiques", BoutiqueController.ShowBoutiques);
+router.get("/boutique/delete/:_id", BoutiqueController.DeleteBoutiqueDash);
+
+router.get("/boutique/createpage", (req, res) => {
+  const user = req.session?.context?.user || null;
+  res.render("dashboard/addboutique", { user });
+});
+
+router.post("/boutique/create", BoutiqueController.CreateBoutique);
+router.get("/boutique/updatepage/:_id", BoutiqueController.UpdateBoutiquePage);
+router.post("/boutique/update/:_id", BoutiqueController.UpdateBoutiqueFunction);
+
 module.exports = router;
