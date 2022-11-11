@@ -159,9 +159,13 @@ const OneBoutiquePage = async (req, res) => {
 };
 
 const ShowBoutiques = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const boutiques = await BoutiqueModel.find({ deleted: false });
-    const user = req.session?.context?.user || null;
     return res.render("dashboard/showboutiques", { boutiques, user });
   } catch (error) {
     console.log("##########:", error);
@@ -170,6 +174,11 @@ const ShowBoutiques = async (req, res) => {
 };
 
 const CreateBoutique = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const { libelle, adress, city, telephone, postal_code, description } =
       req.body;
@@ -205,9 +214,13 @@ const CreateBoutique = async (req, res) => {
 };
 
 const UpdateBoutiquePage = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const { _id } = req.params;
-    const user = req.session?.context?.user || null;
     const boutiqueToUpdate = await BoutiqueModel.findById({ _id });
     if (!boutiqueToUpdate) {
       return res.redirect("/gest_boutiques");
@@ -223,6 +236,11 @@ const UpdateBoutiquePage = async (req, res) => {
 };
 
 const UpdateBoutiqueFunction = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const { _id } = req.params;
     const { libelle, adress, city, telephone, postal_code, description } =
@@ -255,6 +273,11 @@ const UpdateBoutiqueFunction = async (req, res) => {
 };
 
 const DeleteBoutiqueDash = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const { _id } = req.params;
     const removedBoutique = await BoutiqueModel.findOneAndUpdate(

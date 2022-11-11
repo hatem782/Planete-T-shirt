@@ -85,6 +85,9 @@ router.get("/test", (req, res, next) => {
 
 router.get("/dashboard", (req, res, next) => {
   const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
   // if (user?.role === "admin") {
   res.render("dashboard/dash_main", { user });
   // } else {
@@ -97,6 +100,9 @@ router.get("/article/delete/:_id", ArticleController.DeleteArticleDash);
 
 router.get("/article/createpage", (req, res) => {
   const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
   res.render("dashboard/addarticle", { user });
 });
 
@@ -109,6 +115,9 @@ router.get("/boutique/delete/:_id", BoutiqueController.DeleteBoutiqueDash);
 
 router.get("/boutique/createpage", (req, res) => {
   const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
   res.render("dashboard/addboutique", { user });
 });
 

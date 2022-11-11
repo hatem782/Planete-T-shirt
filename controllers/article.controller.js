@@ -89,7 +89,7 @@ const UpdateArticle = async (req, res) => {
 const DeleteArticle = async (req, res) => {
   try {
     const { _id } = req.query;
-    const removedArticle = await ArticleModel.remove({ _id });
+    const removedArticle = await ArticleModel.findByIdAndDelete({ _id });
     if (!removedArticle) {
       return res
         .status(400)
@@ -155,6 +155,11 @@ const OneArticlePage = async (req, res) => {
 };
 
 const ShowArticles = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const articles = await ArticleModel.find({ deleted: false });
     const user = req.session?.context?.user || null;
@@ -166,6 +171,11 @@ const ShowArticles = async (req, res) => {
 };
 
 const CreateArticle = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const { libelle, image, description, price } = req.body;
     //--------------------------------------------------------------------------
@@ -198,9 +208,13 @@ const CreateArticle = async (req, res) => {
 };
 
 const UpdateArticlePage = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const { _id } = req.params;
-    const user = req.session?.context?.user || null;
     const articleToUpdate = await ArticleModel.findById({ _id });
     if (!articleToUpdate) {
       return res.redirect("/gest_articles");
@@ -216,6 +230,11 @@ const UpdateArticlePage = async (req, res) => {
 };
 
 const UpdateArticleFunction = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const { _id } = req.params;
     const { libelle, image, description, price } = req.body;
@@ -245,6 +264,11 @@ const UpdateArticleFunction = async (req, res) => {
 };
 
 const DeleteArticleDash = async (req, res) => {
+  const user = req.session?.context?.user || null;
+  if (!user || user?.role !== "admin") {
+    return res.redirect("/acceuil");
+  }
+
   try {
     const { _id } = req.params;
     const removedArticle = await ArticleModel.findOneAndUpdate(
