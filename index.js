@@ -28,3 +28,5 @@ app.listen(process.env.PORT || 8080, () => {
 // routes and urls
 
 app.use("/", routes);
+
+module.exports = app;

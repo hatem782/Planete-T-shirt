@@ -7,10 +7,12 @@ const AddArticle = async (req, res) => {
     // verifier si l'article existe deja
     let existArticle = await ArticleModel.findOne({ libelle });
     if (existArticle) {
-      return res.status(400).json({
+      res.status(400);
+      res.send({
         Message: "produit deja exist",
         Success: false,
       });
+      return res;
     }
 
     const article = new ArticleModel({
@@ -22,36 +24,46 @@ const AddArticle = async (req, res) => {
     const newArticle = await article.save();
 
     if (!newArticle) {
-      return res.status(400).json({
+      res.status(400);
+      res.send({
         Message: "problem dans l'ajout de l'article",
         Success: false,
       });
+      return res;
     }
 
-    return res.status(200).json({
+    res.status(200);
+    res.send({
       Message: "aricle a été ajouté",
       Success: true,
     });
+    return res;
   } catch (error) {
     console.log("##########:", error);
-    return res.status(400).json({
+    res.status(400);
+    res.send({
       Message: "problem dans l'ajout de l'article",
       Success: false,
     });
+    return res;
   }
 };
 
 const AllArticles = async (req, res) => {
   try {
     const articles = await ArticleModel.find();
-    return res.status(200).json({
+    res.status(200);
+    res.send({
       Message: "tous articles",
       Success: true,
       data: { articles },
     });
+    return res;
   } catch (error) {
     console.log("##########:", error);
-    res.status(400).send({ Message: "Server Error", Error: error.message });
+    res.status(400);
+    res.send({ Message: "Server Error", Error: error.message });
+    return res;
   }
 };
 
@@ -67,38 +79,49 @@ const UpdateArticle = async (req, res) => {
     );
 
     if (!updatedArticle) {
-      return res.status(400).json({
+      res.status(400);
+      res.send({
         Message: "problem dans la modification de l'article",
         Success: false,
       });
+      return res;
     }
 
-    return res.status(200).json({
+    res.status(200);
+    res.send({
       Message: "aricle a été modifié",
       Success: true,
+      updated: updatedArticle,
     });
+    return res;
   } catch (error) {
     console.log("##########:", error);
-    return res.status(400).json({
+    res.status(400);
+    res.send({
       Message: "problem dans la modification de l'article",
       Success: false,
     });
+    return res;
   }
 };
 
 const DeleteArticle = async (req, res) => {
   try {
-    const { _id } = req.query;
+    const { _id } = req.params;
     const removedArticle = await ArticleModel.findByIdAndDelete({ _id });
     if (!removedArticle) {
-      return res
-        .status(400)
-        .json({ Message: "Probléme dans la suppression de l'article" });
+      res.status(400);
+      res.send({ Message: "Probléme dans la suppression de l'article" });
+      return res;
     }
-    return res.status(200).json({ Message: "Article a été supprimé" });
+    res.status(200);
+    res.send({ Message: "Article a été supprimé" });
+    return res;
   } catch (error) {
     console.log("##########:", error);
-    res.status(500).send({ Message: "Server Error", Error: error.message });
+    res.status(500);
+    res.send({ Message: "Server Error", Error: error.message });
+    return res;
   }
 };
 
